@@ -1,5 +1,8 @@
 from django.db import models 
+from django.utils import timezone
 from .validation import validate_only_letters, validate_excluding_special_chars
+import datetime
+
 
 # Create your models here.
 
@@ -39,5 +42,8 @@ class Post(models.Model):
 
     def get_image_url(self):
         return f"{self.image.url}"
+
+    def was_published_recently(self):
+        return timezone.now() - datetime.timedelta(days=1) <= self.pub_date <= timezone.now() 
 
 
