@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Blog</title>
+</head>
+<body>
+	{% if categories %}
+		<ul>
+			{% for category in categories %}
+				<li><a href="#">{{ category.name }}</a></li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>There aren't categories.</p>
+	{% endif %}
+</body>
+</html>
+
