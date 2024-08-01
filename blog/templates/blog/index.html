@@ -3,16 +3,32 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Blog</title>
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'blog/style.css' %}">
 </head>
 <body>
 	{% if categories %}
-		<ul>
+		<div class="flex-category-container">
 			{% for category in categories %}
-				<li><a href="#">{{ category.name }}</a></li>
+			<span class="category-link" name="category" id="cat{{ forloop.counter }}"><a href="#">{{ category.name }}</a></span>
 			{% endfor %}
-		</ul>
+		</div>
 	{% else %}
 		<p>There aren't categories.</p>
+	{% endif %}
+
+	{% if posts %}
+		<div class="post-container">
+		{% for post in posts %}
+			<div class="post-template">
+				<img src="{{ post.get_image_url }}"></img>
+				<span class="post-title">{{ post.title }}</span>
+				<div class="post-excerpt">{{ post.get_excerpt }}</div>
+			</div>
+		{% endfor %}
+		</div>
+	{% else %}
+		<p>There aren't posts.</p>
 	{% endif %}
 </body>
 </html>

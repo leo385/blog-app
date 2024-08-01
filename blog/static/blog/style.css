@@ -1,0 +1,51 @@
+body{
+	margin: 0;
+	padding: 50px;	
+	background: white;
+
+}
+
+.flex-category-container{
+
+	display: flex;
+	justify-content: center;	
+	gap: 50px;	
+}
+
+
+.post-container{
+
+	padding-top: 50px;
+
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);;
+	
+	gap: 30px;		
+
+}
+
+.post-template{
+
+	display: grid;
+
+	padding: 20px;
+	background: red;
+
+
+}
+
+.post-template > img {
+	
+	width: 225px;
+	height: 225px;
+}
+
+.post-title{
+	
+	margin-top: 10px;
+}
+
+.post-excerpt{
+
+	margin-top: 10px;
+}

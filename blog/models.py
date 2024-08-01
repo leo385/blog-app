@@ -34,7 +34,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to="images/", default="images/default_image.png")
 
     title = models.CharField(max_length=200, validators=[validate_excluding_special_chars])
-    description = models.CharField(max_length=2000)
+    description = models.TextField()
     pub_date = models.DateTimeField("date published")
 
     def __str__(self):
@@ -46,4 +46,5 @@ class Post(models.Model):
     def was_published_recently(self):
         return timezone.now() - datetime.timedelta(days=1) <= self.pub_date <= timezone.now() 
 
-
+    def get_excerpt(self, length=75):
+        return self.description[:length] + ('...' if len(self.description) > length else '') 
