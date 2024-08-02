@@ -5,12 +5,27 @@
 	<title>Blog</title>
 	{% load static %}
 	<link rel="stylesheet" href="{% static 'blog/style.css' %}">
+	{% if posts %}
+		{% for post in posts %}
+			<style>
+				.post-image{{ forloop.counter }}{
+					width: 225px;
+					height: 225px;
+					background-image: url("{{ post.get_image_url }}");
+					background-attachment: inherit;
+					background-size: cover;
+					background-position: center;
+				}
+			</style>
+		{% endfor %}
+	{% endif %}
 </head>
 <body>
 	{% if categories %}
 		<div class="flex-category-container">
+			<span class="category-link" name="category" id="cat-default"><a href="/blog">All articles</a></span>
 			{% for category in categories %}
-			<span class="category-link" name="category" id="cat{{ forloop.counter }}"><a href="#">{{ category.name }}</a></span>
+			<span class="category-link" name="category" id="cat{{ forloop.counter }}"><a href="/blog/category/{{ category.slug }}">{{ category.name }}</a></span>
 			{% endfor %}
 		</div>
 	{% else %}
@@ -21,7 +36,7 @@
 		<div class="post-container">
 		{% for post in posts %}
 			<div class="post-template">
-				<img src="{{ post.get_image_url }}"></img>
+				<div class="post-image{{ forloop.counter }}"></div>
 				<span class="post-title">{{ post.title }}</span>
 				<div class="post-excerpt">{{ post.get_excerpt }}</div>
 			</div>

@@ -1,5 +1,6 @@
 from django.db import models 
 from django.utils import timezone
+from django.utils.text import slugify
 from .validation import validate_only_letters, validate_excluding_special_chars
 import datetime
 
@@ -9,6 +10,13 @@ import datetime
 class Category(models.Model):
 
     name = models.CharField(max_length=200, validators=[validate_only_letters], unique=True)
+    slug = models.SlugField(unique=True, null=True, blank=True, max_length=200) 
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
+
     parent_category = models.ForeignKey('self',
                                         null=True,
                                         blank=True,
@@ -17,6 +25,7 @@ class Category(models.Model):
     
     class Meta:
         constraints = [ models.UniqueConstraint(fields=['parent_category'], name='unique_parent_category') ]
+
 
     def __str__(self):
         return self.name
@@ -48,3 +57,5 @@ class Post(models.Model):
 
     def get_excerpt(self, length=75):
         return self.description[:length] + ('...' if len(self.description) > length else '') 
+
+
