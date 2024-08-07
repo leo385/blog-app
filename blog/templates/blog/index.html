@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Blog</title>
 	{% load static %}
 	<link rel="stylesheet" href="{% static 'blog/style.css' %}">
@@ -21,16 +22,25 @@
 	{% endif %}
 </head>
 <body>
+	<div class="flex-body-container">
 	{% if categories %}
 		<div class="flex-category-container">
-			<span class="category-link" name="category" id="cat-default"><a href="/blog">All articles</a></span>
+			<span class="category-link" name="category" id="cat-default"><a href="{% url 'blog:index' %}">All articles</a></span>
 			{% for category in categories %}
-			<span class="category-link" name="category" id="cat{{ forloop.counter }}"><a href="/blog/category/{{ category.slug }}">{{ category.name }}</a></span>
+			<span class="category-link" name="category" id="cat{{ forloop.counter }}"><a href="{% url 'blog:category_detail' category.slug %}">{{ category.name }}</a></span>
 			{% endfor %}
-		</div>
 	{% else %}
 		<p>There aren't categories.</p>
 	{% endif %}
+		</div>
+	<div class="flex-sorting-container">
+		<form method="GET" action="">
+			<select id="menu-sorting sort" name="sorting" onchange="this.form.submit()">
+				<option value="by_date_asc" {% if sorting == 'by_date_asc' %}selected{% endif %}>order by date ASC</option>
+				<option value="by_date_desc" {% if sorting == 'by_date_desc' %}selected{% endif %}>order by date DESC</option>
+			</select>
+		</form>
+	</div>
 
 	{% if posts %}
 		<div class="post-container">
@@ -41,10 +51,11 @@
 				<div class="post-excerpt">{{ post.get_excerpt }}</div>
 			</div>
 		{% endfor %}
-		</div>
 	{% else %}
 		<p>There aren't posts.</p>
 	{% endif %}
+		</div>
+	</div>
 </body>
 </html>
 

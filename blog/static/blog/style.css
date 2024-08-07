@@ -1,17 +1,33 @@
 body{
 	margin: 0;
 	padding: 50px;	
-	background: white;
 
+}
+
+.flex-body-container{
+	
+	display: inline-flex;
+	width: 100%;
+	flex-wrap: wrap;
 }
 
 .flex-category-container{
 
 	display: flex;
-	justify-content: center;	
-	gap: 50px;	
+	justify-content: right;	
+	gap: 50px;
+
+	width: 60%;	
 }
 
+.flex-sorting-container{
+
+	display: flex;
+	justify-content: right;
+
+	width: 100%;
+	
+}
 
 .post-container{
 
