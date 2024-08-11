@@ -42,6 +42,10 @@ class PostModelTests(TestCase):
        with self.assertRaises(ValidationError):
            instance.full_clean()
 
+    def test_slug_is_not_empty(self):
+        post = Post.objects.create(category=self.category, title="test post", slug="", pub_date=timezone.now())
+        self.assertNotEqual(post.slug, "", "Slug field is empty")
+
     def test_was_published_recently(self):
         instance = Post(category=self.category, title="abcd", description="abcd", pub_date=timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59))
         self.assertIs(instance.was_published_recently(), True) 

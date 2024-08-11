@@ -43,6 +43,13 @@ class Post(models.Model):
     image = models.ImageField(upload_to="images/", default="images/default_image.png")
 
     title = models.CharField(max_length=200, validators=[validate_excluding_special_chars])
+    slug = models.SlugField(unique=True, null=True, blank=True, max_length=200) 
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Post, self).save(*args, **kwargs)
+
     description = models.TextField()
     pub_date = models.DateTimeField("date published")
 
