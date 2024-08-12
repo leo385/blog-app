@@ -2,11 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.utils import timezone
 
 from .models import Category, Post
 
 # Create your views here.
+
+class PostDetailView(DetailView):
+
+    model = Post
+    template_name = "blog/detail.html"
+
+    
 
 class IndexView(ListView):
     

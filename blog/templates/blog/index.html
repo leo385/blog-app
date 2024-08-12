@@ -45,11 +45,13 @@
 	{% if posts %}
 		<div class="post-container">
 		{% for post in posts %}
-			<div class="post-template">
-				<div class="post-image{{ forloop.counter }}"></div>
-				<span class="post-title">{{ post.title }}</span>
-				<div class="post-excerpt">{{ post.get_excerpt }}</div>
-			</div>
+			<a href="{% url 'blog:post_detail' post.slug %}">
+				<div class="post-template">
+					<div class="post-image{{ forloop.counter }}"></div>
+					<span class="post-title">{{ post.title }}</span>
+					<div class="post-excerpt">{{ post.get_excerpt }}</div>
+				</div>
+			</a>
 		{% endfor %}
 	{% else %}
 		<p>There aren't posts.</p>

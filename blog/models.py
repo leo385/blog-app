@@ -1,6 +1,7 @@
-from django.db import models 
+from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 from .validation import validate_only_letters, validate_excluding_special_chars
 import datetime
 
@@ -52,6 +53,8 @@ class Post(models.Model):
 
     description = models.TextField()
     pub_date = models.DateTimeField("date published")
+     
+    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

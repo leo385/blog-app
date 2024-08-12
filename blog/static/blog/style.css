@@ -1,3 +1,8 @@
+
+*{
+	box-sizing: border-box;
+}
+
 body{
 	margin: 0;
 	padding: 50px;	
@@ -38,6 +43,12 @@ body{
 	
 	gap: 30px;		
 
+}
+
+.post-container > a {
+
+	text-decoration: none;
+	color: #000;
 }
 
 .post-template{

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ post.title }}</title>
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'blog/post_detail/style.css' %}">
+	<style>
+		.post-image{
+			width: 820px;
+			height: 461px;
+			background-image: url("{{ post.get_image_url }}");
+			background-attachment: inherit;
+			background-size: cover;
+			background-position: center;
+		}
+	</style>
+</head>
+<body>
+	<a href="{% url 'blog:index' %}">Back to blog</a>
+	<div class="post-container">
+		<div class="post-title"><h1>{{ post.title }}</h1></div>
+		<div class="post-image"></div>
+		<div class="post-description"><p>{{ post.description }}</p></div>
+	</div>
+
+</body>
+</html>
+
+
