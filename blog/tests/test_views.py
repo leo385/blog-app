@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 import datetime
 
 from blog.models import Category, Post
@@ -12,12 +13,14 @@ from blog.models import Category, Post
 def create_category(name):
     return Category.objects.create(name=name)
 
+
 def create_post(category, title, pub_date):
     return Post.objects.create(category=category, title=title, pub_date=pub_date)
 
 class IndexViewTests(TestCase):
 
     def setUp(self):
+        User.objects.all().delete()
         self.category = create_category("test_category")
         self.category_slug = get_object_or_404(Category, slug=self.category.slug)
         self.url = reverse("blog:category_detail", args=(self.category_slug,))
@@ -30,6 +33,9 @@ class IndexViewTests(TestCase):
         self.post1 = create_post(self.category_foo, "abcd", pub_date="2024-08-01")
         self.post2 = create_post(self.category_foo, "abcdef", pub_date="2024-08-03")
         self.post3 = create_post(self.category_foo, "abcdefghi", pub_date="2024-08-05")
+
+    def tearDown(self):
+        User.objects.all().delete()
 
 
     def test_category_exists(self):
@@ -107,3 +113,16 @@ class IndexViewTests(TestCase):
         posts = list(response.context['posts'])
 
         self.assertEqual(posts, [self.post3, self.post2, self.post1])
+
+
+class PostDetailViewTests(TestCase):
+
+
+    def setUp(self):
+        self.category = create_category("test_category")
+        self.post = create_post(self.category, "dog", timezone.now())
+
+    def test_is_response(self):
+        post_slug = self.post.slug
+        response = self.client.get(reverse("blog:post_detail", kwargs={"slug" : post_slug}))
+        self.assertEqual(response.status_code, 200)
