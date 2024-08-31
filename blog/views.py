@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 from .models import Category, Post
 
@@ -17,7 +18,9 @@ class PostDetailView(DetailView):
     
 
 class IndexView(ListView):
-    
+
+    paginate_by = 2
+
     template_name = "blog/index.html"
     context_object_name = "posts"
 
@@ -58,8 +61,24 @@ class IndexView(ListView):
             
             context["posts"] = posts
 
+            paginator = Paginator(posts, 2)
+
+            page_number = self.request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+
+            context["page_obj"] = page_obj
+
         else:
             context["posts"] = self.get_queryset()
+            
+            posts = self.get_queryset()
+
+            paginator = Paginator(posts, 2)
+
+            page_number = self.request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+
+            context["page_obj"] = page_obj
 
 
         return context

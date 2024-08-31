@@ -87,3 +87,11 @@ body{
 
 	margin-top: 10px;
 }
+
+.pagination{
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	
+}
+
