@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Blog</title>
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'blog/style.css' %}">
+	{% if posts %}
+		{% for post in page_obj %}
+			<style>
+				.post-image{{ forloop.counter }}{
+					width: 225px;
+					height: 225px;
+					background-image: url("{{ post.get_image_url }}");
+					background-attachment: inherit;
+					background-size: cover;
+					background-position: center;
+				}
+			</style>
+		{% endfor %}
+	{% endif %}
+</head>
+<body>
+	<div class="flex-body-container">
+	{% if categories %}
+		<div class="flex-category-container">
+			<span class="category-link" name="category" id="cat-default"><a href="{% url 'blog:index' %}">All articles</a></span>
+			{% for category in categories %}
+			<span class="category-link" name="category" id="cat{{ forloop.counter }}"><a href="{% url 'blog:category_detail' category.slug %}">{{ category.name }}</a></span>
+			{% endfor %}
+	{% else %}
+		<p>There aren't categories.</p>
+	{% endif %}
+		</div>
+	<div class="flex-sorting-container">
+		<form method="GET" action="">
+			<select id="menu-sorting sort" name="sorting" onchange="this.form.submit()">
+				<option value="by_date_asc" {% if sorting == 'by_date_asc' %}selected{% endif %}>order by date ASC</option>
+				<option value="by_date_desc" {% if sorting == 'by_date_desc' %}selected{% endif %}>order by date DESC</option>
+			</select>
+		</form>
+	</div>
+
+	{% if posts %}
+		<div class="post-container">
+		{% for post in page_obj %}
+			<a href="{% url 'blog:post_detail' post.slug %}">
+				<div class="post-template">
+					<div class="post-image{{ forloop.counter }}"></div>
+					<span class="post-title">{{ post.title }}</span>
+					<div class="post-excerpt">{{ post.get_excerpt }}</div>
+					<div class="post-author">{% if post.author %}Autor: {{ post.author }}{% endif %}</div>
+				</div>
+			</a>
+		{% endfor %}
+	{% else %}
+		<p>There aren't posts.</p>
+	{% endif %}
+		</div>
+		<div class="pagination">
+		    <span class="step-links">
+			{% if page_obj.has_previous %}
+			    <a href="?page=1">&laquo; first</a>
+			    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+			{% endif %}
+
+			<span class="current">
+			    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+			</span>
+
+			{% if page_obj.has_next %}
+			    <a href="?page={{ page_obj.next_page_number }}">next</a>
+			    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+			{% endif %}
+		    </span>
+		</div>
+	</div>
+</body>
+</html>
+
