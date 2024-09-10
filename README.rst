@@ -12,7 +12,7 @@ Quick start
 
     INSTALLED_APPS = [
         ...,
-        "django_blog",
+        "django_blog.apps.BlogConfig",
     ]
 
 2. Include the blog URLconf in your project urls.py like this::
@@ -24,3 +24,21 @@ Quick start
 4. Start the development server and visit the admin to create categories and posts.
 
 5. Visit the ``/blog/`` URL to participate in the blog.
+
+6. In root project directory, set in settings.py:
+
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+
+It is needed for images that were uploaded by post itself,
+we need to separate images somewhere.
+
+7. In the same directory, set in urls.py
+
+    Add imports:
+        from django.conf.urls.static import static
+        from django.conf import settings
+
+    and below urlpatterns = [], add static url pattern for media
+        if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
