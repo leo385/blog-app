@@ -1,0 +1,13 @@
+*{
+	box-sizing: border-box;
+}
+
+.post-container{
+
+	padding: 1.5rem;	
+}	
+
+.post-author{
+
+	margin-top: 10px;
+}
