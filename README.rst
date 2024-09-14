@@ -5,6 +5,8 @@ django-blog
 This is blog application, where you can create some posts in specific category,
 either publish or modificate it from backoffice admin panel.
 
+You can check it out on my vps, here: https://frog02-20301.wykr.es/blog/
+
 Quick start
 -----------
 
